@@ -108,6 +108,7 @@ app.post('/login',async (req,res) => {
 
 app.post('/auth',async(req,res) => {
   const {userToken} = req.body;
+  console.log(userToken);
   const decoded = await verifyToken(userToken);
   const userEmail = decoded.user;
   try{
@@ -135,12 +136,14 @@ app.post('/auth',async(req,res) => {
 })
 
 app.post('/dashboard',async (req,res) => {
+   
     const {userToken} = req.body;
+    console.log(userToken);
     const decoded = await verifyToken(userToken);
     const userEmail = decoded.user;
     try{
         const user = await userModel.findOne({email : userEmail});
-        console.log(user);
+        // console.log(user);
         return res.send({
             status : 200,
             message : 'Welcome to your Dashboard',
