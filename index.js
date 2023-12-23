@@ -142,8 +142,7 @@ app.post('/auth',async(req,res) => {
 })
 
 app.post('/dashboard',async (req,res) => {
-   
-    const {userToken} = req.body;
+    const userToken = req.header.authorization;
     console.log(userToken);
     const decoded = await verifyToken(userToken);
     const userEmail = decoded.user;
@@ -162,10 +161,8 @@ app.post('/dashboard',async (req,res) => {
         message : 'Internal server error',
         error
     })
-   }
-   
+   } 
 })
-
 
 app.post('/dashboard/delete-account',async (req,res) => {
     const {id} = req.body;
