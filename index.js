@@ -71,9 +71,8 @@ app.post('/login',async (req,res) => {
         await userModel.findOneAndUpdate({email},{isAuth : true});
             const token = generateToken(email);
             res.cookie('userToken',token,{
-               httpsOnly : true,
                sameSite : 'none',
-               secure : true
+               secure : true,
             })
             return res.send({
                 status : 201,
@@ -135,7 +134,7 @@ app.post('/auth',async(req,res) => {
 
 app.post('/dashboard',async (req,res) => {
     const {userToken} = req.body;
-    console.log("usertoken",userToken);
+    console.log("userToken",userToken);
     const decoded = await verifyToken(userToken);
     const userEmail = decoded.user;
     try{
