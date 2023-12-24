@@ -78,7 +78,7 @@ app.post('/login',async (req,res) => {
             const token = generateToken(email);
             res.cookie('userToken',token,{
                httpsOnly : true,
-               sameSite : 'none',
+               sameSite : 'None',
                secure : true
             })
             return res.send({
