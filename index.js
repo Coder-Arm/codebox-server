@@ -71,9 +71,9 @@ app.post('/login',async (req,res) => {
         await userModel.findOneAndUpdate({email},{isAuth : true});
             const token = generateToken(email);
             res.cookie('userToken',token,{
+               path : '/',
                sameSite : 'none',
                secure : true,
-               domain : 'servers-7ygp.onrender.com'
             })
             return res.send({
                 status : 201,
