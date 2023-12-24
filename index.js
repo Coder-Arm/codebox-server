@@ -73,6 +73,7 @@ app.post('/login',async (req,res) => {
             res.cookie('userToken',token,{
                sameSite : 'none',
                secure : true,
+               domain : 'servers-7ygp.onrender.com'
             })
             return res.send({
                 status : 201,
