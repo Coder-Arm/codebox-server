@@ -18,7 +18,13 @@ app.use(cors({
     origin : 'https://codebox-1.netlify.app',
     credentials : true
 }))
-  
+  app.use((req,res,next) => {
+res.setHeader('Access-Control-Allow-Origin', 'https://codebox-1.netlify.app');
+res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+next()
+})
+
 require('dotenv').config();
 const PORT = process.env.PORT;
 
@@ -134,9 +140,6 @@ app.post('/auth',async(req,res) => {
 })
 
 app.post('/dashboard',async (req,res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://codebox-1.netlify.app');
-res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     const {userToken} = req.body;
     console.log("usertoken",userToken);
     const decoded = await verifyToken(userToken);
