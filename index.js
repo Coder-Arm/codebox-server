@@ -69,7 +69,8 @@ app.post('/login',async (req,res) => {
         await userModel.findOneAndUpdate({email},{isAuth : true});
             const token = generateToken(email);
             res.cookie('userToken',token,{
-               httpOnly : true
+               sameSite : 'none',
+               secure : true,
             })
             return res.send({
                 status : 201,
