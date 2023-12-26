@@ -9,10 +9,7 @@ const {encryptPass,decryptPass} = require('./utils/encryptDecryptPass');
 const {generateToken, verifyToken} = require('./utils/token');
 const cookieParser = require('cookie-parser');
 
-app.use(cors({
-    origin : 'https://codebox-1.netlify.app',
-    credentials : true
-}))
+app.use(cors())
 
 
 app.use(express.json());
@@ -72,8 +69,7 @@ app.post('/login',async (req,res) => {
         await userModel.findOneAndUpdate({email},{isAuth : true});
             const token = generateToken(email);
             res.cookie('userToken',token,{
-               sameSite : 'none',
-               secure : true,
+               httpOnly : true
             })
             return res.send({
                 status : 201,
