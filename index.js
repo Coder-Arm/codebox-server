@@ -71,13 +71,10 @@ app.post('/login',async (req,res) => {
       if(isMatchedPass){
         await userModel.findOneAndUpdate({email},{isAuth : true});
             const token = generateToken(email);
-            res.cookie('userToken',token,{
-               sameSite : 'none',
-               secure : true,
-            })
             return res.send({
                 status : 201,
-                message : 'User logged in successfully'
+                message : 'User logged in successfully',
+                token
             })
         }
         else{
