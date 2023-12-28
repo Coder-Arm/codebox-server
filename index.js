@@ -64,13 +64,13 @@ app.post('/login',async (req,res) => {
     
    try{
     await validateCredentials({email,password,mode : 'login'})
-    // console.log('inside');
     const userExists = await userModel.findOne({email});
     if(userExists){
     const isMatchedPass = decryptPass(password,userExists.password);
       if(isMatchedPass){
         await userModel.findOneAndUpdate({email},{isAuth : true});
             const token = generateToken(email);
+            
             return res.send({
                 status : 201,
                 message : 'User logged in successfully',
@@ -132,7 +132,6 @@ app.post('/auth',async(req,res) => {
 
 app.post('/dashboard',async (req,res) => {
     const {userToken} = req.body;
-    console.log("userToken",userToken);
     const decoded = await verifyToken(userToken);
     const userEmail = decoded.user;
     try{
@@ -175,9 +174,12 @@ app.post('/dashboard/delete-account',async (req,res) => {
 app.post('/dashboard/create-arena',async (req,res) => {
     const {arenaName,userToken} = req.body;
     try{
+        
         await validateCredentials({name : arenaName,mode : 'Create'})
+        console.log('this line');
         const decoded = await verifyToken(userToken);
         const email = decoded.user;
+        
         const user = await userModel.findOne({email});
         const arenaExists = await arenaModel.findOne({$and : [{arenaName},{userId : user._id}]});
     
@@ -188,7 +190,7 @@ app.post('/dashboard/create-arena',async (req,res) => {
             })
         }
         const arena =  await arenaModel.create({arenaName,userId : user._id});
-       
+         console.log(arena)
         return res.send({
             status : 201,
             message : 'Arena created successfully',
