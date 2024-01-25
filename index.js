@@ -157,6 +157,7 @@ app.post('/dashboard/delete-account',async (req,res) => {
     // console.log(id);
     try{
         const user = await userModel.findByIdAndDelete({_id : id});
+        await arenaModel.deleteMany({userId : id})
         return res.send({
             status : 204,
             message : 'User account deleted successfully'
