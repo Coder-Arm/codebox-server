@@ -68,7 +68,7 @@ app.post('/login',async (req,res) => {
     if(userExists){
     const isMatchedPass = decryptPass(password,userExists.password);
       if(isMatchedPass){
-        await userModel.findOneAndUpdate({email},{isAuth : true});
+
             const token = generateToken(email);
             
             return res.send({
@@ -156,7 +156,7 @@ app.post('/dashboard/delete-account',async (req,res) => {
     const {id} = req.body;
     // console.log(id);
     try{
-        const user = await userModel.findByIdAndDelete({_id : id});
+       await userModel.findByIdAndDelete({_id : id});
         await arenaModel.deleteMany({userId : id})
         return res.send({
             status : 204,
@@ -175,7 +175,6 @@ app.post('/dashboard/delete-account',async (req,res) => {
 app.post('/dashboard/create-arena',async (req,res) => {
     const {arenaName,userToken} = req.body;
     try{
-        
         await validateCredentials({name : arenaName,mode : 'Create'})
         console.log('this line');
         const decoded = await verifyToken(userToken);
@@ -267,7 +266,7 @@ app.post('/get-arena',async (req,res) => {
 app.post('/delete-arena',async (req,res) => {
     const {id} = req.body;
     try{
-    const arena = await arenaModel.findOneAndDelete({_id : id});
+    await arenaModel.findOneAndDelete({_id : id});
     return res.send({
         status : 200,
         message : 'Arena deleted successfully',
@@ -285,7 +284,7 @@ app.post('/delete-arena',async (req,res) => {
 app.post('/save-files',async (req,res) => {
    const {id,html,css,js} = req.body;
    try{
-     const arena = await arenaModel.findByIdAndUpdate({_id : id},{
+     await arenaModel.findByIdAndUpdate({_id : id},{
         html,css,js
      });
      return res.send({
